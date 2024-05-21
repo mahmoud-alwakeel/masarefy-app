@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:masarefy/screens/home_Screen.dart';
+import 'package:masarefy/screens/expenses.dart';
 
 void main() {
   runApp(const MasarefyApp());
@@ -11,7 +11,7 @@ class MasarefyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: HomeScreen(),
+      home: Expenses(),
     );
   }
 }
