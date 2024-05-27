@@ -27,6 +27,10 @@ class _ExpensesState extends State<Expenses> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Masarefy'),
+        actions: [IconButton(onPressed: (){}, icon: const Icon(Icons.add))],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
