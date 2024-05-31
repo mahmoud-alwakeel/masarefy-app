@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:masarefy/screens/widgets/new_expense.dart';
 import 'package:masarefy/screens/models/expense.dart';
 import 'package:masarefy/screens/widgets/expenses_list.dart';
 
@@ -24,12 +25,23 @@ class _ExpensesState extends State<Expenses> {
       category: Category.cloth,
     ),
   ];
+
+  void _openAddEXpensesOverlay() {
+    showModalBottomSheet(context: context, builder: (context) {
+      return NewExpense();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Masarefy'),
-        actions: [IconButton(onPressed: (){}, icon: const Icon(Icons.add))],
+        actions: [
+          IconButton(
+            onPressed: _openAddEXpensesOverlay,
+            icon: const Icon(Icons.add),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
