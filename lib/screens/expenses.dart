@@ -28,7 +28,7 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAddEXpensesOverlay() {
     showModalBottomSheet(context: context, builder: (context) {
-      return NewExpense();
+      return const NewExpense();
     });
   }
   @override
@@ -47,7 +47,7 @@ class _ExpensesState extends State<Expenses> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Text("chart"),
+            const Text("chart"),
             Expanded(child: ExpensesList(expenses: _savedExpenses))
           ],
         ),
