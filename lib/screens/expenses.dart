@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:masarefy/screens/widgets/chart/chart.dart';
 import 'package:masarefy/screens/widgets/new_expense.dart';
 import 'package:masarefy/screens/models/expense.dart';
 import 'package:masarefy/screens/widgets/expenses_list.dart';
@@ -85,7 +86,9 @@ class _ExpensesState extends State<Expenses> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            const Text("chart"),
+            ChartWidget(expenses: _savedExpenses,),
+            const SizedBox(height: 30,),
+            // const Text("chart"),
             Expanded(
               child: _savedExpenses.isEmpty
                   ? const Center(
