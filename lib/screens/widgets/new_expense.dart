@@ -15,6 +15,7 @@ class _NewExpenseState extends State<NewExpense> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   DateTime? _selectedDate;
+  Category _selectedCategory = Category.food;
 
   void _openDatePicker() async {
     final nowTime = DateTime.now();
@@ -57,7 +58,6 @@ class _NewExpenseState extends State<NewExpense> {
                 child: TextField(
                   controller: _priceController,
                   keyboardType: TextInputType.number,
-                  maxLength: 6,
                   decoration: const InputDecoration(
                     prefixText: '\$ ',
                     label: Text('price'),
@@ -68,7 +68,9 @@ class _NewExpenseState extends State<NewExpense> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(_selectedDate == null ? 'Select Date' : formater.format(_selectedDate!)),
+                    Text(_selectedDate == null
+                        ? 'Select Date'
+                        : formater.format(_selectedDate!)),
                     IconButton(
                       onPressed: _openDatePicker,
                       icon: const Icon(Icons.calendar_month_outlined),
@@ -78,8 +80,31 @@ class _NewExpenseState extends State<NewExpense> {
               ),
             ],
           ),
+          const SizedBox(
+            height: 20,
+          ),
           Row(
             children: [
+              DropdownButton(
+                value: _selectedCategory,
+                items: Category.values
+                    .map(
+                      (category) => DropdownMenuItem(
+                        value: category,
+                        child: Text(category.name),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (val) {
+                  if (val == null) {
+                    return;
+                  }
+                  setState(() {
+                    _selectedCategory = val;
+                  });
+                },
+              ),
+              const Spacer(),
               ElevatedButton(
                 onPressed: () {
                   print(_titleController.text);
