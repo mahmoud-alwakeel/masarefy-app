@@ -26,11 +26,28 @@ class _ExpensesState extends State<Expenses> {
     ),
   ];
 
-  void _openAddEXpensesOverlay() {
-    showModalBottomSheet(context: context, builder: (context) {
-      return const NewExpense();
+  void addExpenseItem(Expense expense) {
+    setState(() {
+      _savedExpenses.add(expense);
     });
   }
+
+  void _openAddEXpensesOverlay() {
+    showModalBottomSheet(
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return Padding(
+            padding: EdgeInsets.only(
+              top: 48,
+                bottom: MediaQuery.of(context).viewInsets.bottom,),
+            child: NewExpense(
+              addExpense: addExpenseItem,
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

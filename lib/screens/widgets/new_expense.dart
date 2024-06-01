@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:masarefy/screens/models/expense.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  const NewExpense({super.key, required this.addExpense});
+
+  final Function(Expense expense) addExpense;
 
   @override
   State<NewExpense> createState() {
@@ -31,6 +32,16 @@ class _NewExpenseState extends State<NewExpense> {
       _selectedDate = pickedDate;
     });
   }
+
+  bool get validPrice {
+    final enteredPrice = double.tryParse(_priceController.text);
+    return enteredPrice == null || enteredPrice >= 0;
+  }
+
+  bool get validExpense => _titleController.text.trim().isNotEmpty;
+  bool get validDate => _selectedDate != null;
+  bool get validPriceAndExpenseAndDate =>
+      validExpense && validPrice && validDate;
 
   @override
   void dispose() {
@@ -106,10 +117,19 @@ class _NewExpenseState extends State<NewExpense> {
               ),
               const Spacer(),
               ElevatedButton(
-                onPressed: () {
-                  print(_titleController.text);
-                  print(_priceController.text);
-                },
+                onPressed: validPriceAndExpenseAndDate
+                    ? () {
+                      widget.addExpense(
+                        Expense(
+                          title: _titleController.text,
+                          amount: double.tryParse(_priceController.text)!,
+                          date: _selectedDate!,
+                          category: _selectedCategory,
+                        ),
+                      );
+                      Navigator.pop(context);
+                    }
+                    : null,
                 child: const Text('Save'),
               ),
               const SizedBox(
