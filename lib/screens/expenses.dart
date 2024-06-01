@@ -26,9 +26,15 @@ class _ExpensesState extends State<Expenses> {
     ),
   ];
 
-  void addExpenseItem(Expense expense) {
+  void _addExpenseItem(Expense expense) {
     setState(() {
       _savedExpenses.add(expense);
+    });
+  }
+
+  void _removeExpense(Expense expense) {
+    setState(() {
+      _savedExpenses.remove(expense);
     });
   }
 
@@ -40,9 +46,10 @@ class _ExpensesState extends State<Expenses> {
           return Padding(
             padding: EdgeInsets.only(
               top: 48,
-                bottom: MediaQuery.of(context).viewInsets.bottom,),
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
             child: NewExpense(
-              addExpense: addExpenseItem,
+              addExpense: _addExpenseItem,
             ),
           );
         });
@@ -65,7 +72,12 @@ class _ExpensesState extends State<Expenses> {
         child: Column(
           children: [
             const Text("chart"),
-            Expanded(child: ExpensesList(expenses: _savedExpenses))
+            Expanded(
+              child: ExpensesList(
+                expenses: _savedExpenses,
+                onRemoveExpense: _removeExpense,
+              ),
+            )
           ],
         ),
       ),
