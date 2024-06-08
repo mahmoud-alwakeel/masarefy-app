@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:masarefy/screens/expenses.dart';
 
 void main() {
-  runApp(const MasarefyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]).then((_) {
+    runApp(const MasarefyApp());
+  });
 }
 
 var kColorScheme = ColorScheme.fromSeed(
@@ -21,18 +30,15 @@ class MasarefyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       darkTheme: ThemeData.dark().copyWith(
-        colorScheme: kDarkColorScheme,
-        appBarTheme: const AppBarTheme().copyWith(
-        backgroundColor: kColorScheme.onPrimaryContainer,
-        foregroundColor: kColorScheme.primaryContainer,
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: kDarkColorScheme.primaryContainer,
-          foregroundColor: kDarkColorScheme.onPrimaryContainer
-        )
-      )
-      ),
+          colorScheme: kDarkColorScheme,
+          appBarTheme: const AppBarTheme().copyWith(
+            backgroundColor: kColorScheme.onPrimaryContainer,
+            foregroundColor: kColorScheme.primaryContainer,
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: kDarkColorScheme.primaryContainer,
+                  foregroundColor: kDarkColorScheme.onPrimaryContainer))),
       theme: ThemeData().copyWith(
           appBarTheme: const AppBarTheme().copyWith(
         backgroundColor: kColorScheme.onPrimaryContainer,

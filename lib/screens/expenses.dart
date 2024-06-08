@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:masarefy/screens/widgets/chart/chart.dart';
 import 'package:masarefy/screens/widgets/new_expense.dart';
 import 'package:masarefy/screens/models/expense.dart';
@@ -72,6 +73,10 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.sizeOf(context).width;
+    double height = MediaQuery.sizeOf(context).width;
+    print(width);
+    print(height);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Masarefy'),
@@ -84,9 +89,25 @@ class _ExpensesState extends State<Expenses> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
+        child: width <= 450 ? Column(
           children: [
             ChartWidget(expenses: _savedExpenses,),
+            const SizedBox(height: 30,),
+            // const Text("chart"),
+            Expanded(
+              child: _savedExpenses.isEmpty
+                  ? const Center(
+                      child: Text('No expenses, Add some'),
+                    )
+                  : ExpensesList(
+                      expenses: _savedExpenses,
+                      onRemoveExpense: _removeExpense,
+                    ),
+            )
+          ],
+        ) : Row(
+          children: [
+            Expanded(child: ChartWidget(expenses: _savedExpenses,),),
             const SizedBox(height: 30,),
             // const Text("chart"),
             Expanded(
