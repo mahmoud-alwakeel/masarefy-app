@@ -52,98 +52,104 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          TextField(
-            controller: _titleController,
-            maxLength: 20,
-            decoration: const InputDecoration(
-              label: Text('label'),
-            ),
-          ),
-          Row(
+    double keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+    return SizedBox(
+      height: double.infinity,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(8.0, 8, 8, keyboardSpace + 8),
+          child: Column(
             children: [
-              Expanded(
-                child: TextField(
-                  controller: _priceController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    prefixText: '\$ ',
-                    label: Text('price'),
-                  ),
+              TextField(
+                controller: _titleController,
+                maxLength: 20,
+                decoration: const InputDecoration(
+                  label: Text('label'),
                 ),
               ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(_selectedDate == null
-                        ? 'Select Date'
-                        : formater.format(_selectedDate!)),
-                    IconButton(
-                      onPressed: _openDatePicker,
-                      icon: const Icon(Icons.calendar_month_outlined),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: [
-              DropdownButton(
-                value: _selectedCategory,
-                items: Category.values
-                    .map(
-                      (category) => DropdownMenuItem(
-                        value: category,
-                        child: Text(category.name),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _priceController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(
+                        prefixText: '\$ ',
+                        label: Text('price'),
                       ),
-                    )
-                    .toList(),
-                onChanged: (val) {
-                  if (val == null) {
-                    return;
-                  }
-                  setState(() {
-                    _selectedCategory = val;
-                  });
-                },
-              ),
-              const Spacer(),
-              ElevatedButton(
-                onPressed: validPriceAndExpenseAndDate
-                    ? () {
-                      widget.addExpense(
-                        Expense(
-                          title: _titleController.text,
-                          amount: double.tryParse(_priceController.text)!,
-                          date: _selectedDate!,
-                          category: _selectedCategory,
-                        ),
-                      );
-                      Navigator.pop(context);
-                    }
-                    : null,
-                child: const Text('Save'),
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(_selectedDate == null
+                            ? 'Select Date'
+                            : formater.format(_selectedDate!)),
+                        IconButton(
+                          onPressed: _openDatePicker,
+                          icon: const Icon(Icons.calendar_month_outlined),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
-                width: 20,
+                height: 20,
               ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Cancel'),
-              ),
+              Row(
+                children: [
+                  DropdownButton(
+                    value: _selectedCategory,
+                    items: Category.values
+                        .map(
+                          (category) => DropdownMenuItem(
+                            value: category,
+                            child: Text(category.name),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (val) {
+                      if (val == null) {
+                        return;
+                      }
+                      setState(() {
+                        _selectedCategory = val;
+                      });
+                    },
+                  ),
+                  const Spacer(),
+                  ElevatedButton(
+                    onPressed: validPriceAndExpenseAndDate
+                        ? () {
+                          widget.addExpense(
+                            Expense(
+                              title: _titleController.text,
+                              amount: double.tryParse(_priceController.text)!,
+                              date: _selectedDate!,
+                              category: _selectedCategory,
+                            ),
+                          );
+                          Navigator.pop(context);
+                        }
+                        : null,
+                    child: const Text('Save'),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                ],
+              )
             ],
-          )
-        ],
+          ),
+        ),
       ),
     );
   }
